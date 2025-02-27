@@ -1,8 +1,0 @@
-{
-	"rules": {
-		"comment-format": false,
-		"indent": [true, "spaces"],
-		"no-inner-html": false,
-		"no-require-imports": false
-	}
-}

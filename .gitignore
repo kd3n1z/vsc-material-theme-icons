@@ -1,8 +1,2 @@
-out
 node_modules
-.vscode-test/
-*.vsix
-coverage/
-.nyc_output/
-_tmp-output-remote-icons
-.DS_Store
+dist

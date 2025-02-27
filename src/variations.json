@@ -1,0 +1,31 @@
+{
+    "variableIcons": [
+        "folder_assets",
+        "folder_ci",
+        "folder_css",
+        "folder_dark",
+        "folder_dist",
+        "folder_git",
+        "folder_github",
+        "folder_gulp",
+        "folder_images",
+        "folder_js",
+        "folder_light",
+        "folder_nginx",
+        "folder_node",
+        "folder_root_dark",
+        "folder_root_light",
+        "folder_sass",
+        "folder_src",
+        "folder_test",
+        "folder_vscode"
+    ],
+    "variations": {
+        "default": "#4A616C",
+        "Darker": "#424242",
+        "Light": "#90A4AE",
+        "Palenight": "#4E5579",
+        "Ocean": "#474C60",
+        "Deepforest": "#375844"
+    }
+}
