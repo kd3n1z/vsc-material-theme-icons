@@ -47,9 +47,19 @@
                 "path": "./dist/variations/default.json"
             },
             {
+                "id": "vsc-material-theme-icons-default-arrows",
+                "label": "Material Theme Icons (with arrows)",
+                "path": "./dist/variations/default-arrows.json"
+            },
+            {
                 "id": "vsc-material-theme-icons-darker",
                 "label": "Material Theme Icons Darker",
                 "path": "./dist/variations/darker.json"
+            },
+            {
+                "id": "vsc-material-theme-icons-darker-arrows",
+                "label": "Material Theme Icons Darker (with arrows)",
+                "path": "./dist/variations/darker-arrows.json"
             },
             {
                 "id": "vsc-material-theme-icons-light",
@@ -57,9 +67,19 @@
                 "path": "./dist/variations/light.json"
             },
             {
+                "id": "vsc-material-theme-icons-light-arrows",
+                "label": "Material Theme Icons Light (with arrows)",
+                "path": "./dist/variations/light-arrows.json"
+            },
+            {
                 "id": "vsc-material-theme-icons-palenight",
                 "label": "Material Theme Icons Palenight",
                 "path": "./dist/variations/palenight.json"
+            },
+            {
+                "id": "vsc-material-theme-icons-palenight-arrows",
+                "label": "Material Theme Icons Palenight (with arrows)",
+                "path": "./dist/variations/palenight-arrows.json"
             },
             {
                 "id": "vsc-material-theme-icons-ocean",
@@ -67,9 +87,19 @@
                 "path": "./dist/variations/ocean.json"
             },
             {
+                "id": "vsc-material-theme-icons-ocean-arrows",
+                "label": "Material Theme Icons Ocean (with arrows)",
+                "path": "./dist/variations/ocean-arrows.json"
+            },
+            {
                 "id": "vsc-material-theme-icons-deepforest",
                 "label": "Material Theme Icons Deepforest",
                 "path": "./dist/variations/deepforest.json"
+            },
+            {
+                "id": "vsc-material-theme-icons-deepforest-arrows",
+                "label": "Material Theme Icons Deepforest (with arrows)",
+                "path": "./dist/variations/deepforest-arrows.json"
             }
         ]
     },

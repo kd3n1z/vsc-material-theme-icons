@@ -80,11 +80,22 @@ function main() {
         const jsonPath = './dist/variations/' + id + '.json';
         writeFileSync(jsonPath, JSON.stringify(output));
 
-        iconThemes.push({
-            id: package.name + '-' + id,
-            label: 'Material Theme Icons' + (id === 'default' ? '' : ' ' + name),
-            path: jsonPath,
-        });
+        output.hidesExplorerArrows = false;
+        const jsonArrowsPath = './dist/variations/' + id + '-arrows.json';
+        writeFileSync(jsonArrowsPath, JSON.stringify(output));
+
+        iconThemes.push(
+            {
+                id: package.name + '-' + id,
+                label: 'Material Theme Icons' + (id === 'default' ? '' : ' ' + name),
+                path: jsonPath,
+            },
+            {
+                id: package.name + '-' + id + '-arrows',
+                label: 'Material Theme Icons' + (id === 'default' ? '' : ' ' + name) + ' (with arrows)',
+                path: jsonArrowsPath,
+            }
+        );
     }
 
     console.log('updating package.json...');
