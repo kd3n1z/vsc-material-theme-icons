@@ -4,11 +4,8 @@
 
 # Material Theme Icons
 
-<a href="https://marketplace.visualstudio.com/items?itemName=kd3n1z.vscode-material-theme-icons">
-
-![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/kd3n1z.vscode-material-theme-icons)
-
-</a>
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/kd3n1z.vscode-material-theme-icons)](https://marketplace.visualstudio.com/items?itemName=kd3n1z.vscode-material-theme-icons)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/kd3n1z.vscode-material-theme-icons)](https://marketplace.visualstudio.com/items?itemName=kd3n1z.vscode-material-theme-icons)
 
 </div>
 
