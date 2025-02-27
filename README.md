@@ -14,3 +14,6 @@ The original creator of the extension is doing something fishy, so I've decided 
 Feel free to contribute - I'll try not to forget about this project.
 
 
+## License
+
+This project is licensed under the Apache 2.0 license. See the [LICENSE](LICENSE) file for details.
