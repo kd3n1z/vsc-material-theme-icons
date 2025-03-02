@@ -33,6 +33,7 @@ function main() {
 
         if (!existsSync(iconPath)) {
             console.warn(`warn: icon '${icon}' (${iconPath}) not found`);
+            continue;
         }
 
         if (variationsConfig.variableIcons.includes(icon)) {
