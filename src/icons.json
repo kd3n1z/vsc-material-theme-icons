@@ -582,6 +582,7 @@
         "zig": "zig",
         "zig.zon": "zig",
         "zsh": "console",
+        "tark": "tarkine",
         "test.jsx": "test",
         "test.js": "test",
         "test.tsx": "test",
