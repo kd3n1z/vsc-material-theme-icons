@@ -106,10 +106,11 @@
     },
     "scripts": {
         "build": "node scripts/build.js",
-        "lint": "node scripts/build.js --lint",
-        "publish": "npm run build && vsce publish"
+        "lint": "node scripts/build.js --lint"
     },
     "devDependencies": {
+        "@vscode/vsce": "^3.9.2",
+        "ovsx": "^1.0.2",
         "svgo": "^3.3.2"
     }
 }
