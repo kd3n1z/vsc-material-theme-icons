@@ -84,7 +84,7 @@ function build() {
 
     console.log("updating package.json...");
     pkg.contributes.iconThemes = iconThemes;
-    writeFileSync("./package.json", JSON.stringify(pkg, null, 4));
+    writeFileSync("./package.json", JSON.stringify(pkg, null, 4) + "\n");
 
     console.log("everything done!");
 }
