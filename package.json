@@ -106,6 +106,7 @@
     },
     "scripts": {
         "build": "node scripts/build.js",
+        "lint": "node scripts/build.js --lint",
         "publish": "npm run build && vsce publish"
     },
     "devDependencies": {

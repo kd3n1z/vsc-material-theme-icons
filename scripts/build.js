@@ -2,46 +2,24 @@ import { optimize } from "svgo";
 import { readFileSync, writeFileSync, rmSync, existsSync, mkdirSync } from "fs";
 
 function main() {
+    if (process.argv.includes("--lint")) {
+        lint();
+    } else {
+        build();
+    }
+}
+
+function build() {
     rmSync("./dist", { force: true, recursive: true });
     mkdirSync("./dist/icons", { recursive: true });
     mkdirSync("./dist/variations");
 
-    console.log("reading input...");
+    const { variationsConfig, input, pkg } = readInput();
 
-    const variationsConfig = JSON.parse(readFileUTF8("./src/variations.json"));
-    const input = JSON.parse(readFileUTF8("./src/icons.json"));
-    const pkg = JSON.parse(readFileUTF8("./package.json"));
-
-    const iconsSet = new Set();
-
-    for (const value of Object.values(input)) {
-        if (typeof value === "string") {
-            iconsSet.add(value);
-            continue;
-        }
-
-        for (const subvalue of Object.values(value)) {
-            iconsSet.add(subvalue);
-        }
-    }
-
-    const variableIcons = [];
-    const normalIcons = [];
-
-    for (const icon of iconsSet) {
-        const iconPath = getIconPath(icon);
-
-        if (!existsSync(iconPath)) {
-            console.warn(`warn: icon '${icon}' (${iconPath}) not found`);
-            continue;
-        }
-
-        if (variationsConfig.variableIcons.includes(icon)) {
-            variableIcons.push(icon);
-        } else {
-            normalIcons.push(icon);
-        }
-    }
+    const { normalIcons, variableIcons } = collectIcons(
+        input,
+        variationsConfig,
+    );
 
     input.iconDefinitions = {};
     input.hidesExplorerArrows = true;
@@ -114,6 +92,62 @@ function main() {
     writeFileSync("./package.json", JSON.stringify(pkg, null, 4));
 
     console.log("everything done!");
+}
+
+function lint() {
+    const { variationsConfig, input } = readInput();
+
+    if (!collectIcons(input, variationsConfig).ok) {
+        console.log("lint failed");
+        process.exit(1);
+    }
+
+    console.log("everything ok!");
+}
+
+function collectIcons(input, variationsConfig) {
+    let ok = true;
+
+    const iconsSet = new Set();
+
+    for (const value of Object.values(input)) {
+        if (typeof value === "string") {
+            iconsSet.add(value);
+            continue;
+        }
+        for (const subvalue of Object.values(value)) {
+            iconsSet.add(subvalue);
+        }
+    }
+
+    const variableIcons = [];
+    const normalIcons = [];
+
+    for (const icon of iconsSet) {
+        const iconPath = getIconPath(icon);
+        if (!existsSync(iconPath)) {
+            console.warn(`warn: icon '${icon}' (${iconPath}) not found`);
+            ok = false;
+            continue;
+        }
+        if (variationsConfig.variableIcons.includes(icon)) {
+            variableIcons.push(icon);
+        } else {
+            normalIcons.push(icon);
+        }
+    }
+
+    return { normalIcons, variableIcons, ok };
+}
+
+function readInput() {
+    console.log("reading input...");
+
+    const variationsConfig = JSON.parse(readFileUTF8("./src/variations.json"));
+    const input = JSON.parse(readFileUTF8("./src/icons.json"));
+    const pkg = JSON.parse(readFileUTF8("./package.json"));
+
+    return { variationsConfig, input, pkg };
 }
 
 function readFileUTF8(path) {
