@@ -8,6 +8,7 @@
     "engines": {
         "vscode": "^1.36.0"
     },
+    "type": "module",
     "categories": [
         "Themes"
     ],

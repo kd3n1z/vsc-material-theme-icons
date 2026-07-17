@@ -1,21 +1,21 @@
-const { optimize } = require('svgo');
-const { readFileSync, writeFileSync, rmSync, existsSync, mkdirSync } = require('fs');
+import { optimize } from "svgo";
+import { readFileSync, writeFileSync, rmSync, existsSync, mkdirSync } from "fs";
 
 function main() {
-    rmSync('./dist', { force: true, recursive: true });
-    mkdirSync('./dist/icons', { recursive: true });
-    mkdirSync('./dist/variations');
+    rmSync("./dist", { force: true, recursive: true });
+    mkdirSync("./dist/icons", { recursive: true });
+    mkdirSync("./dist/variations");
 
-    console.log('reading input...');
+    console.log("reading input...");
 
-    const variationsConfig = JSON.parse(readFileUTF8('./src/variations.json'));
-    const input = JSON.parse(readFileUTF8('./src/icons.json'));
-    const package = JSON.parse(readFileUTF8('./package.json'));
+    const variationsConfig = JSON.parse(readFileUTF8("./src/variations.json"));
+    const input = JSON.parse(readFileUTF8("./src/icons.json"));
+    const pkg = JSON.parse(readFileUTF8("./package.json"));
 
     const iconsSet = new Set();
 
     for (const value of Object.values(input)) {
-        if (typeof value === 'string') {
+        if (typeof value === "string") {
             iconsSet.add(value);
             continue;
         }
@@ -46,7 +46,7 @@ function main() {
     input.iconDefinitions = {};
     input.hidesExplorerArrows = true;
 
-    console.log('optimizing normal icons...');
+    console.log("optimizing normal icons...");
 
     for (const icon of normalIcons) {
         const result = optimize(readFileUTF8(getIconPath(icon)), {
@@ -54,7 +54,7 @@ function main() {
         });
         writeIcon(icon, result.data);
 
-        input.iconDefinitions[icon] = { iconPath: '../icons/' + icon + '.svg' };
+        input.iconDefinitions[icon] = { iconPath: "../icons/" + icon + ".svg" };
     }
 
     const iconThemes = [];
@@ -63,59 +63,69 @@ function main() {
 
     for (const [name, color] of Object.entries(variationsConfig.variations)) {
         const id = name.toLowerCase();
-        console.log('generating variation ' + id + '...');
+        console.log("generating variation " + id + "...");
 
         let output = structuredClone(input);
 
         for (const icon of variableIcons) {
-            const iconId = icon + '-' + id;
+            const iconId = icon + "-" + id;
 
-            const result = optimize(readFileUTF8(getIconPath(icon)).replaceAll(defaultColor, color), {
-                multipass: true,
-            });
+            const result = optimize(
+                readFileUTF8(getIconPath(icon)).replaceAll(defaultColor, color),
+                {
+                    multipass: true,
+                },
+            );
             writeIcon(iconId, result.data);
 
-            output.iconDefinitions[icon] = { iconPath: '../icons/' + iconId + '.svg' };
+            output.iconDefinitions[icon] = {
+                iconPath: "../icons/" + iconId + ".svg",
+            };
         }
 
-        const jsonPath = './dist/variations/' + id + '.json';
+        const jsonPath = "./dist/variations/" + id + ".json";
         writeFileSync(jsonPath, JSON.stringify(output));
 
         output.hidesExplorerArrows = false;
-        const jsonArrowsPath = './dist/variations/' + id + '-arrows.json';
+        const jsonArrowsPath = "./dist/variations/" + id + "-arrows.json";
         writeFileSync(jsonArrowsPath, JSON.stringify(output));
 
         iconThemes.push(
             {
-                id: package.name + '-' + id,
-                label: 'Material Theme Icons' + (id === 'default' ? '' : ' ' + name),
+                id: pkg.name + "-" + id,
+                label:
+                    "Material Theme Icons" +
+                    (id === "default" ? "" : " " + name),
                 path: jsonPath,
             },
             {
-                id: package.name + '-' + id + '-arrows',
-                label: 'Material Theme Icons' + (id === 'default' ? '' : ' ' + name) + ' (with arrows)',
+                id: pkg.name + "-" + id + "-arrows",
+                label:
+                    "Material Theme Icons" +
+                    (id === "default" ? "" : " " + name) +
+                    " (with arrows)",
                 path: jsonArrowsPath,
-            }
+            },
         );
     }
 
-    console.log('updating package.json...');
-    package.contributes.iconThemes = iconThemes;
-    writeFileSync('./package.json', JSON.stringify(package, null, 4));
+    console.log("updating package.json...");
+    pkg.contributes.iconThemes = iconThemes;
+    writeFileSync("./package.json", JSON.stringify(pkg, null, 4));
 
-    console.log('everything done!');
+    console.log("everything done!");
 }
 
 function readFileUTF8(path) {
-    return readFileSync(path, { encoding: 'utf8' });
+    return readFileSync(path, { encoding: "utf8" });
 }
 
 function writeIcon(icon, data) {
-    writeFileSync('./dist/icons/' + icon + '.svg', data);
+    writeFileSync("./dist/icons/" + icon + ".svg", data);
 }
 
 function getIconPath(icon) {
-    return './src/svgs/' + icon + '.svg';
+    return "./src/svgs/" + icon + ".svg";
 }
 
 main();
