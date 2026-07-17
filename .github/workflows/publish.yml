@@ -1,0 +1,30 @@
+name: Publish
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    lint:
+        uses: ./.github/workflows/lint.yml
+
+    publish:
+        needs: lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - run: npm ci
+
+            - name: Build
+              run: npm run build
+
+            - name: Publish to VS Code Marketplace
+              run: npx vsce publish --no-dependencies -p ${{ secrets.VSCE_TOKEN }}
+
+            - name: Publish to Open VSX
+              run: npx ovsx publish --no-dependencies -p ${{ secrets.OVSX_TOKEN }}
