@@ -32,7 +32,7 @@ function build() {
         });
         writeIcon(icon, result.data);
 
-        input.iconDefinitions[icon] = { iconPath: "../icons/" + icon + ".svg" };
+        input.iconDefinitions[icon] = { iconPath: `../icons/${icon}.svg` };
     }
 
     const iconThemes = [];
@@ -41,12 +41,12 @@ function build() {
 
     for (const [name, color] of Object.entries(variationsConfig.variations)) {
         const id = name.toLowerCase();
-        console.log("generating variation " + id + "...");
+        console.log(`generating variation ${id}...`);
 
         let output = structuredClone(input);
 
         for (const icon of variableIcons) {
-            const iconId = icon + "-" + id;
+            const iconId = `${icon}-${id}`;
 
             const result = optimize(
                 readFileUTF8(getIconPath(icon)).replaceAll(defaultColor, color),
@@ -57,31 +57,26 @@ function build() {
             writeIcon(iconId, result.data);
 
             output.iconDefinitions[icon] = {
-                iconPath: "../icons/" + iconId + ".svg",
+                iconPath: `../icons/${iconId}.svg`,
             };
         }
 
-        const jsonPath = "./dist/variations/" + id + ".json";
+        const jsonPath = `./dist/variations/${id}.json`;
         writeFileSync(jsonPath, JSON.stringify(output));
 
         output.hidesExplorerArrows = false;
-        const jsonArrowsPath = "./dist/variations/" + id + "-arrows.json";
+        const jsonArrowsPath = `./dist/variations/${id}-arrows.json`;
         writeFileSync(jsonArrowsPath, JSON.stringify(output));
 
         iconThemes.push(
             {
-                id: pkg.name + "-" + id,
-                label:
-                    "Material Theme Icons" +
-                    (id === "default" ? "" : " " + name),
+                id: `${pkg.name}-${id}`,
+                label: `Material Theme Icons${id === "default" ? "" : " " + name}`,
                 path: jsonPath,
             },
             {
-                id: pkg.name + "-" + id + "-arrows",
-                label:
-                    "Material Theme Icons" +
-                    (id === "default" ? "" : " " + name) +
-                    " (with arrows)",
+                id: `${pkg.name}-${id}-arrows`,
+                label: `Material Theme Icons${id === "default" ? "" : " " + name} (with arrows)`,
                 path: jsonArrowsPath,
             },
         );
@@ -155,11 +150,11 @@ function readFileUTF8(path) {
 }
 
 function writeIcon(icon, data) {
-    writeFileSync("./dist/icons/" + icon + ".svg", data);
+    writeFileSync(`./dist/icons/${icon}.svg`, data);
 }
 
 function getIconPath(icon) {
-    return "./src/svgs/" + icon + ".svg";
+    return `./src/svgs/${icon}.svg`;
 }
 
 main();
